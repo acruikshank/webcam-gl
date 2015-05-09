@@ -22,9 +22,7 @@
             discard;
           }
           float d = distance(gl_PointCoord.st, vec2(0.3,0.3));
-//          gl_FragColor = vec4((.5-d)*fragColor.rgb, 1.0);
           gl_FragColor = vec4(fragColor.rgb, 1.0);
-//          gl_FragColor = vec4((.5-d)*vec3(mix(1.0,1.0,vDepth), mix(1.0,0.75,vDepth), mix(1.0,0.0,vDepth)), 1.0);
         }
     </script>
 
@@ -48,7 +46,6 @@
 
       void main(void) {
         float l = length(aVertexPosition);
-//        vDepth = exp(-l*l) * sin(l*3.0 + uTheta);
         fragColor = texture2D(uDepth, aVertexPosition/N);
         vDepth = length(fragColor);
         vec3 position = vec3(-vec2(1.33333*D,D)*((aVertexPosition)/N-0.5),-6.0*(vDepth-0.5));
@@ -89,10 +86,9 @@ var maxPathTime = 150;
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia
                         || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 navigator.getUserMedia({audio:false,video:true}, function(stream) {
-    console.log("got stream", stream)
     var video=document.getElementById("v");
     video.src=URL.createObjectURL(stream);
-    start();
+    video.addEventListener('canplay', start);
   }, function(err) { console.log(err); });
 
 
